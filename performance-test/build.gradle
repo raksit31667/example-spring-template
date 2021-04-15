@@ -16,5 +16,5 @@ sourceSets {
 
 dependencies {
     implementation 'io.gatling:gatling-core:3.4.1'
-    implementation 'io.gatling:gatling-http:3.4.1'
+    implementation 'io.gatling:gatling-http:3.5.1'
 }
