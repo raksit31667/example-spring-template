@@ -12,3 +12,6 @@ management:
     web:
       exposure:
         include: '*'
+  metrics:
+    tags.*:
+      service: template
