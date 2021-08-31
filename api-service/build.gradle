@@ -110,11 +110,31 @@ jacoco {
     reportsDir = file("$buildDir/reports/jacoco")
 }
 
+def jacocoExcludedClasses = ["com/raksit/example/template/TemplateApplication*"]
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+    classDirectories.setFrom(classDirectories.files.collect {
+        fileTree(dir: it, exclude: jacocoExcludedClasses)
+    })
+}
+
 jacocoTestReport {
     reports {
         xml.enabled = true
         csv.enabled = false
         html.destination file("$buildDir/reports/jacoco")
+    }
+    afterEvaluate {
+        classDirectories.setFrom(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExcludedClasses)
+        })
     }
 }
 
@@ -133,8 +153,9 @@ task docker(type: com.google.cloud.tools.jib.gradle.BuildImageTask) {
     }
 }
 
-check.dependsOn(integrationTest)
+check.dependsOn(jacocoTestCoverageVerification, integrationTest)
 test.shouldRunAfter(pmdMain)
-integrationTest.shouldRunAfter(test)
+integrationTest.shouldRunAfter(jacocoTestCoverageVerification)
 jacocoTestReport.dependsOn(test)
+jacocoTestCoverageVerification.dependsOn(jacocoTestReport)
 
