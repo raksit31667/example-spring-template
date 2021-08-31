@@ -18,3 +18,12 @@ management:
   metrics:
     tags.*:
       service: template
+
+info:
+  application:
+    name: ${rootProject.name}
+    version: ${version}
+    jdk:
+      version: \${java.version}
+    spring-boot:
+      version: ${springBootVersion}
