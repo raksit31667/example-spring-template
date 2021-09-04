@@ -21,7 +21,6 @@
             "request_uri": "%U",
             "protocol": "%H",
             "requestId": "%i{x-request-id}",
-            "oRequestId": "%responseHeader{requestId}",
             "thread_name": "%I"
             }
           </pattern>
